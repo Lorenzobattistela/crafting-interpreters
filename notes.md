@@ -72,3 +72,5 @@ A: If we have macros (code that is executed at compile time), the compiler would
 
 Paper: "A Unified Theory of Garbage Collection"
 Paper: "The Next 700 Programming Languages"
+
+Challenge -> Add support fort C-style /* ... */ block comments. Handle newlines in them. Consider allowing them to nest.

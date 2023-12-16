@@ -72,7 +72,11 @@ public class Scanner {
             case '/':
                 if (match('/')) {
                     while(peek() != '\n' && !isAtEnd()) advance();
-                } else {
+                }
+                else if (match('*')) {
+                  multiLineComment();
+                }
+                else {
                     addToken(SLASH);
                 }
                 break;
@@ -95,6 +99,30 @@ public class Scanner {
                 }
                 break;
         }
+    }
+
+    private void multiLineComment() {
+      int nestedLevel = 1;
+      while(!isAtEnd()) {
+        if(peek() == '*' && peekNext() == '/') {
+          advance();
+          advance();
+          nestedLevel--;
+          
+          if(nestedLevel == 0) {
+            return;
+          }
+        }
+        else if(peek() == '/' && peekNext() == '*') {
+          advance();
+          advance();
+          nestedLevel++;
+        }
+        else {
+          advance();
+        }
+      }
+      Lox.error(line, "Unterminated multiLineComment");
     }
 
     private void identifier() {
