@@ -25,7 +25,7 @@ public class GenerateAst {
     String path = outputDir + "/" + baseName + ".java";
     PrintWriter writer = new PrintWriter(path, "UTF-8");
     
-    writer.println("package lox;");
+    writer.println("package jlox;");
     writer.println();
     writer.println("import java.util.List;");
     writer.println();
@@ -58,7 +58,7 @@ public class GenerateAst {
 
   private static void defineType(PrintWriter writer, String baseName, String className, String fieldList) {
     writer.println("  static class " + className + " extends " + baseName + " {");
-    writer.println("    " + className + " extends " + baseName + " {");
+    writer.println("    " + className + "(" + fieldList + ") {");
     
     String[] fields = fieldList.split(", ");
     for (String field : fields) {

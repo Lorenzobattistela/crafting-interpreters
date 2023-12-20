@@ -72,3 +72,37 @@ A: If we have macros (code that is executed at compile time), the compiler would
 
 Paper: "A Unified Theory of Garbage Collection"
 Paper: "The Next 700 Programming Languages"
+
+### Challenges -> Chapter 5: Representing Code 
+
+1. expr -> expr ( "(" ( expr ("," expr)* )? ")" | "." IDENTIFIER )+ | IDENTIFIER | NUMBER 
+
+Produce a grammar that matches the same language as the one above but does not use any of the notational sugar:
+
+expr → expr calls
+expr → IDENTIFIER
+expr → NUMBER
+
+calls → calls call
+calls → call
+
+call → "(" ")"
+call → "(" arguments ")"
+call → "." IDENTIFIER
+
+arguments → expr
+arguments → arguments "," expr
+
+It is a function call.
+
+2. The visitor pattern lets you emulate the functional style in an object oriented language. Devise a complementary pattern for a functional language. It should let you bundle all of the operations on one type together and let you define new types easily.
+
+Maybe you could use pattern matching, or have a tuple with pointers where each pointer points to an operation for that type.
+
+3. In Reverse Polish Notation (RPN), the operands to an arithmetic operator are both placed before the operator, so 1 + 2 becomes 1 2 +. Evaluation proceeds from left to right. Numbers are pushed onto an implicit stack. AN arithmetic operator pops the top two numbers, performs the operation and pushes the result. Thus, this:: (1 + 2) * (4 - 3)
+in rpm becomse:
+1 2 + 4 3 - *
+
+Define a visitor class for our syntax tree classes that takes an expression, converts it to RPN and return the resulting string.
+
+
