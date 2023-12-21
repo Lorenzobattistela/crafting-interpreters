@@ -21,7 +21,16 @@ class Parser {
   }
 
   private Expr expression() {
-    return equality();
+    return comma();
+  }
+
+  private Expr comma() {
+    Expr expr = equality();
+    while(match(COMMA)) {
+      Expr right = equality();
+      return right;
+    }
+    return expr;
   }
 
   private Expr equality() {
@@ -90,7 +99,7 @@ class Parser {
       consume(RIGHT_PAREN, "Expect ')' after expression.");
       return new Expr.Grouping(expr);
     }
-    
+
     throw error(peek(), "Expect expression.");
   }
 
