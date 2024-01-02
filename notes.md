@@ -141,3 +141,32 @@ hmmm, maybe I would, but mainly just for strings (that we can calculate using as
 3. What happens right now if you divide a number by zero? What do you think should happen? Justify your choice. How do other languages you know handle division by zero and why do they make the choices they do? Change the implementation in visitBinaryExpr to detect and report a runtime error for this case.
 
 Right now what happens is it returns infinity. I think its not "right" because it is undefined actually. I think it should return NaN. Many languages use NaN.
+
+
+### Challenges -> Chapter 8 : Statements and state 
+
+1. The REPL no longer supports entering a simple expression and automatically printing its result value. Add support to the REPL to let users type in both statements and expressions. If they enter a statement, execute it. If they enter an expression, evaluate it and display the result value.
+
+2. Maybe you want lox to be a little more explicit about variable initialization. Instead of implicitly initializing variables to nil, make it a runtime error to access a variable that has not been initialized or assigned to, as in:
+```
+var a;
+var b;
+
+a = "assigned";
+print a; // ok, was assigned First
+
+print b; // error
+```
+
+
+3. What does the following program do?
+
+```
+var a  = 1;
+{
+  var a = a + 2;
+  print a;
+}
+```
+
+What did you expect it to do? Is it what you think it should do? What does analgous code in other languages you are familiar with do? What do you think users will expect this to do?
