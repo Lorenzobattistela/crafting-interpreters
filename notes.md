@@ -169,4 +169,6 @@ var a  = 1;
 }
 ```
 
-What did you expect it to do? Is it what you think it should do? What does analgous code in other languages you are familiar with do? What do you think users will expect this to do?
+What did you expect it to do? Is it what you think it should do? What does analogous code in other languages you are familiar with do? What do you think users will expect this to do?
+
+It prints 3 (gets the old a = 1 and sum it up with 2). I think this is a fair behavior and i'd expect this, mainly because since you're defining a new a in a new scope but you're referring to an a that is already defined, makes sense to get the defined one on definition. It's different then, after printing, if we'd like to do a = a + 3 again, then we should get the a from this scope (which is 3 and would result in 6). But this seems like a programmer naming problem as well if someone thinks this is not good behavior. Reading this code makes me think that referring to the global variable a is the intended (from the programmer).
