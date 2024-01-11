@@ -82,7 +82,7 @@ class Parser {
       );
     }
     if(condition == null) condition = new Expr.Literal(true);
-    body = Stmt.While(condition, body);
+    body = new Stmt.While(condition, body);
 
     if(initializer != null) {
       body = new Stmt.Block(Arrays.asList(initializer, body));
@@ -274,7 +274,7 @@ class Parser {
       } while(match(COMMA));
     }
     Token paren = consume(RIGHT_PAREN, "Expect ')' after arguments.");
-    return new Expr.Call(calee, paren, arguments);
+    return new Expr.Call(callee, paren, arguments);
   }
 
   private Expr call() {
