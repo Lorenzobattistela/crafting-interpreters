@@ -180,3 +180,37 @@ What did you expect it to do? Is it what you think it should do? What does analg
 
 3. Unlike Lox, most other C-style languages also support break and continue statements inside loops. Add support for break statements.
 The syntax is a break keyword followed by a semicolon. It should be a syntax error to have a break statement appear outisde of any enclosing loop. At runtime, a break statement causes execution to jump at the end of the nearest enclosing loop and proceeds from there. Note that the break may be nested inside other blocks and if statements that also need to be exited.
+
+### Challenges -> Chapter 10 : Functions
+
+1. Our interpreter carefully checks that the number of arguments passed to a function matches the number of parameters it expects. Since this check is done at runtime on every call, it has a performance cost. Smalltalk implementations don't have that problem. Why?
+
+Smalltalk has different call syntax for different arities. To define a method that takes multiple arguments, you use keyword selectors. Each argument has a piece of the method name preceding instead of using commas as a separator. For example, a method like:
+
+list.insert("element", 2)
+To insert "element" as index 2 would look like this in Smalltalk:
+
+list insert: "element" at: 2
+Smalltalk doesn't use a dot to separate method name from receiver. More interestingly, the "insert:" and "at:" parts both form a single method call whose full name is "insert:at:". Since the selectors and the colons that separate them form part of the method's name, there's no way to call it with the wrong number of arguments. You can't pass too many or two few arguments to "insert:at:" because there would be no way to write that call while still actually naming that method.
+
+2. Lox's function declaration syntax perform two independent operations. It creates a function and also binds it to a name. This improves usability for the common case where you do want to associate a name with the function. But in functional-styled code, you often want to create a function to immediately pass it to some other function or return it. In that case, it doesnt need a name. 
+Languages that encourage a functional style usually support anonymous functions or lambdas - an expression syntax that creates a function without binding it to a name. Add anonymous function syntax to Lox so that this works:
+
+```
+fun thrice(fn) {
+  for(var i = 1; i <= 3; i = i + 1) {
+    fn(i);
+  }
+}
+
+thrice(fun (a) {
+  print a;
+});
+```
+
+How do you handle the tricky case of an anonymous function expression occurring in an expression statement: `fun() {};` 
+
+3. Is this valid?
+`fun scope(a) { var a = "local"; }`
+In other words, are a function's parameter in the same scope as its local variables or in an outer scope? What does Lox do? What do you think a language should do?
+I personally think this shouldnt be valid, and if it is valid, make it shadowing. Ignore the arg and use the new local.
