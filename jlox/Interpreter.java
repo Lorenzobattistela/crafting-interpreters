@@ -7,6 +7,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
   final Environment globals = new Environment();
   private Environment environment = globals;
+  private static class BreakException extends RuntimeException {}
 
   Interpreter() {
     globals.define("clock", new LoxCallable() {
@@ -208,9 +209,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
   @Override
   public Void visitWhileStmt(Stmt.While stmt) {
-    while(isTruthy(evaluate(stmt.condition))) {
+    try {
+      while(isTruthy(evaluate(stmt.condition))) {
       execute(stmt.body);
-    }
+      }
+    } catch(BreakException ex) {}
     return null;
   }
 
@@ -225,6 +228,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   public Void visitBlockStmt(Stmt.Block stmt) {
     executeBlock(stmt.statements, new Environment(environment));
     return null;
+  }
+
+  @Override
+  public Void visitBreakStmt(Stmt.Break stmt) {
+    throw new BreakException();
   }
 
   private void execute(Stmt stmt) {
