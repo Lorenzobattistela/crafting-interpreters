@@ -214,3 +214,22 @@ How do you handle the tricky case of an anonymous function expression occurring 
 `fun scope(a) { var a = "local"; }`
 In other words, are a function's parameter in the same scope as its local variables or in an outer scope? What does Lox do? What do you think a language should do?
 I personally think this shouldnt be valid, and if it is valid, make it shadowing. Ignore the arg and use the new local.
+
+## Chapter 11 - Resolving and binding
+
+1. Why is it safe to eagerly define the variable bound to a function's name when other variables must wait until after they are initialized before they can be used?
+
+2. How do other languages you know handle local variables that refer to the same name in their initializer, like:
+```
+var a = "Outer";
+{
+ var a = a;
+}
+```
+
+is it a runtime error? compile error? allowed? do they treat global variables differently? wdy think abt their choices.
+
+3. Extend the resolver to report an error if a local variable is never used.
+
+4. Our resolver calculates which environment the variable is found in, but it's still looked up by name in that map. A more efficient environment representation would store local variables in an array and look them up by index. 
+Extend the resolver to associate a unique index for each local variable declared in a scope. When resolving a variable access, look up both the scope the variable is in and its index and store that. In the interpreter, use that to quickly access a variable by its index instead of using a map.
