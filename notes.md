@@ -218,6 +218,10 @@ I personally think this shouldnt be valid, and if it is valid, make it shadowing
 ## Chapter 11 - Resolving and binding
 
 1. Why is it safe to eagerly define the variable bound to a function's name when other variables must wait until after they are initialized before they can be used?
+fun foo() {
+  if (itsTuesday) foo();
+}
+The function does call itself inside it's definition. But it relies on some initial outer call to kick off the recursion. Some outside code must refer to "foo" by name first. That can't happen until the function declaration statement itself has finished executing. By then, "foo" is fully defined and is safe to use.
 
 2. How do other languages you know handle local variables that refer to the same name in their initializer, like:
 ```
@@ -228,6 +232,7 @@ var a = "Outer";
 ```
 
 is it a runtime error? compile error? allowed? do they treat global variables differently? wdy think abt their choices.
+I think it should work, and try to use inner a's, if not possible search for outer.
 
 3. Extend the resolver to report an error if a local variable is never used.
 
