@@ -1,0 +1,25 @@
+
+class A {
+    show() {
+        print "From A";
+      }
+  }
+
+class B < A {
+    show() {
+        print "From B";
+      }
+  }
+
+class C < B {
+    show() {
+        super.show();
+      }
+  }
+
+var a = A();
+a.show();
+var b = B();
+b.show();
+var c = C();
+c.show();
