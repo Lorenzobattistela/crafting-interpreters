@@ -46,7 +46,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     beginScope();
     scopes.peek().put("this", true);
 
-    for(Stmt.Function methods : stmt.methods) {
+    for(Stmt.Function method : stmt.methods) {
       FunctionType declaration = FunctionType.METHOD;
       if(method.name.lexeme.equals("init")) {
         declaration = FunctionType.INITIALIZER;
@@ -54,13 +54,13 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
       resolveFunction(method, declaration);
     }
 
-    endscope();
+    endScope();
     currentClass = enclosingClass;
     return null;
   }
 
   @Override
-  public Void visistExpressionStmt(Stmt.Expression stmt) {
+  public Void visitExpressionStmt(Stmt.Expression stmt) {
     resolve(stmt.expression);
     return null;
   }
@@ -223,7 +223,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     if(scopes.isEmpty()) return;
 
     Map<String, Boolean> scope = scopes.peek();
-    if(scopes.containsKey(name.lexeme)) {
+    if(scope.containsKey(name.lexeme)) {
       Lox.error(name, "ALready a variable with this name in this scope;");
     }
     scope.put(name.lexeme, false);
@@ -242,6 +242,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
   private void resolve(Stmt stmt) {
     stmt.accept(this);
+  }
+
+  private void resolve(Expr expr) {
+    expr.accept(this);
   }
 
   private void beginScope() {
