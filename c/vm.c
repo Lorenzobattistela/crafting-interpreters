@@ -68,7 +68,7 @@ static InterpretResult run() {
       case OP_MULTIPLY: BINARY_OP(*); break;
       case OP_DIVIDE: BINARY_OP(/); break;
       case OP_NEGATE: {
-        push(-pop());
+        vm.stack[vm.stackCount - 1] = - (vm.stack[vm.stackCount - 1]);
         break;
       }
       case OP_RETURN: {
