@@ -2,6 +2,7 @@
 #include "common.h"
 #include "vm.h"
 #include "debug.h"
+#include "compiler.h"
 
 VM vm;
 
@@ -75,10 +76,9 @@ static InterpretResult run() {
   #undef BINARY_OP
 }
 
-InterpretResult interpret(Chunk* chunk) {
-  vm.chunk = chunk;
+InterpretResult interpret(const char* source) {
   // ip is the instruction pointer -> points to the instruction about to be executed
-  vm.ip = vm.chunk->code;
   // Given a numeric code, getting the right C code that implements the instruction semantics is called dispatching / decoding the instruction
-  return run();
+  compile(source);
+  return INTERPRET_OK;
 }
