@@ -77,8 +77,20 @@ static InterpretResult run() {
 }
 
 InterpretResult interpret(const char* source) {
+  Chunk chunk;
+  initChunk(&chunk);
+
+  if(!compile(source, &chunk)) {
+    freeChunk(&chunk);
+    return INTERPRET_COMPILE_ERROR;
+  }
+
+  vm.chunk = &chunk;
+  vm.ip = vm.chunk->code;
+
+  InterpretResult result = run();
+  freeChunk(&chunk);
+  return result;
   // ip is the instruction pointer -> points to the instruction about to be executed
   // Given a numeric code, getting the right C code that implements the instruction semantics is called dispatching / decoding the instruction
-  compile(source);
-  return INTERPRET_OK;
 }
