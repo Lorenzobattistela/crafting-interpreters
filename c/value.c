@@ -3,7 +3,7 @@
 
 #include "memory.h"
 #include "value.h"
-#include "obj.h"
+#include "object.h"
 
 void initValueArray(ValueArray* array) {
   array->values = NULL;

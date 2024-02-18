@@ -42,16 +42,16 @@ typedef struct {
 typedef struct {
   Token name;
   int depth;
-}
+} Local;
 
 typedef struct {
-  Locals locals[UINT8_COUNT];
+  Local locals[UINT8_COUNT];
   int localCount;
   int scopeDepth;
 } Compiler;
 
 Parser parser;
-Copmiler* current = NULL;
+Compiler* current = NULL;
 Chunk* compilingChunk;
 
 static Chunk* currentChunk() {
@@ -151,6 +151,7 @@ static uint8_t identifierConstant(Token* name);
 static ParseRule* getRule(TokenType type);
 static void parsePrecedence(Precedence precedence);
 
+static int resolveLocal(Compiler* compiler, Token* name);
 static uint8_t makeConstant(Value value) {
   int constant = addConstant(currentChunk(), value);
   if(constant > UINT8_MAX) {
@@ -164,7 +165,7 @@ static void emitConstant(Value value) {
   emitBytes(OP_CONSTANT, makeConstant(value));
 }
 
-static void initCompiler(Copmiler* compiler) {
+static void initCompiler(Compiler* compiler) {
   compiler->localCount = 0;
   compiler->scopeDepth = 0;
   current = compiler;
@@ -323,7 +324,7 @@ static bool identifiersEqual(Token* a, Token* b) {
   return memcmp(a->start, b->start, a->length) == 0;
 }
 
-static int resolveLocal(Copmiler* compiler, Token* name) {
+static int resolveLocal(Compiler* compiler, Token* name) {
   for(int i = compiler->localCount - 1; i >= 0; i--) {
     Local* local = &compiler->locals[i];
     if(identifiersEqual(name, &local->name)) {

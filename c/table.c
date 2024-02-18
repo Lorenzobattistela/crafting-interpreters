@@ -43,7 +43,7 @@ static void adjustCapacity(Table* table, int capacity) {
   Entry* entries = ALLOCATE(Entry, capacity);
   for(int i = 0; i < capacity; i++) {
     entries[i].key = NULL;
-    entires[i].value = NIL_VAL;
+    entries[i].value = NIL_VAL;
   }
   
   table->count = 0;

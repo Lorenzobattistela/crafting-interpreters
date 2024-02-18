@@ -115,7 +115,7 @@ static InterpretResult run() {
         break;
       }
       case OP_GREATER: BINARY_OP(BOOL_VAL, >); break;
-      case OP_LESS: BINaRY_OP(BOOL_VAL, <); break;
+      case OP_LESS: BINARY_OP(BOOL_VAL, <); break;
       case OP_ADD: {
         if(IS_STRING(peek(0)) && IS_STRING(peek(1))) {
           concatenate();
@@ -168,7 +168,7 @@ static InterpretResult run() {
         push(value);
         break;
       }
-      case OP_GET_GLOBAL: {
+      case OP_SET_GLOBAL: {
         ObjString* name = READ_STRING();
         if(tableSet(&vm.globals, name, peek(0))) {
           tableDelete(&vm.globals, name);

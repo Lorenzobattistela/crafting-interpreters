@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
+CFLAGS = -std=c99 -Wall -Wextra
 SRC_DIR = ./
 OBJ_DIR = obj
 BIN_DIR = bin
